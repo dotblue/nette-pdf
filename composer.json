@@ -1,0 +1,34 @@
+{
+	"name": "dotblue/nette-pdf",
+	"description": "Simple management of PDF generation in Nette app using mPDF",
+	"type": "library",
+	"keywords": [
+		"pdf",
+		"mpdf",
+		"nette"
+	],
+	"license": ["BSD-3-Clause"],
+	"authors": [
+		{
+			"name": "Vojtěch Dobeš",
+			"homepage": "http://github.com/vojtech-dobes"
+		},
+		{
+			"name": "dotBlue",
+			"homepage": "http://dotblue.net"
+		}
+	],
+	"support": {
+		"issues": "https://github.com/dotblue/nette-pdf/issues",
+		"source": "https://github.com/dotblue/nette-pdf"
+	},
+	"require": {
+		"mpdf/mpdf": "~5.7",
+		"nette/application": ">=2.2.0,<2.3.0",
+		"nette/di": ">=2.2.0,<2.3.0",
+		"nette/utils": ">=2.2.0,<2.3.0"
+	},
+    "autoload": {
+        "classmap": ["src/"]
+    }
+}
