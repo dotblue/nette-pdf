@@ -24,9 +24,9 @@
 	},
 	"require": {
 		"mpdf/mpdf": "~5.7",
-		"nette/application": ">=2.2.0,<2.3.0",
-		"nette/di": ">=2.2.0,<2.3.0",
-		"nette/utils": ">=2.2.0,<2.3.0"
+		"nette/application": ">=2.2.0",
+		"nette/di": ">=2.2.0",
+		"nette/utils": ">=2.2.0"
 	},
     "autoload": {
         "classmap": ["src/"]
