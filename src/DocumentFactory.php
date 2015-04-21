@@ -3,12 +3,10 @@
 namespace DotBlue\Mpdf;
 
 use mPDF;
-use Nette;
-use Nette\Application\Application;
-use Nette\Utils\Strings;
+use Nette\Application\UI\ITemplateFactory;
+use Nette\Object;
 
-
-class DocumentFactory extends Nette\Object
+class DocumentFactory extends Object
 {
 
 	/** @var string */
@@ -33,23 +31,16 @@ class DocumentFactory extends Nette\Object
 	/** @var ITemplateFactory */
 	private $templateFactory;
 
-	/** @var Application */
-	private $application;
-
-
-
 	/**
 	 * @param  string
 	 * @param  array
 	 * @param  ITemplateFactory
-	 * @param  Application
 	 */
-	public function __construct($templateDir, array $defaults, ITemplateFactory $templateFactory, Application $application)
+	public function __construct($templateDir, array $defaults, ITemplateFactory $templateFactory)
 	{
 		$this->templateDir = rtrim($templateDir, DIRECTORY_SEPARATOR);
 		$this->defaults = array_replace_recursive($this->defaults, $defaults);
 		$this->templateFactory = $templateFactory;
-		$this->application = $application;
 	}
 
 
@@ -79,9 +70,7 @@ class DocumentFactory extends Nette\Object
 	{
 		$pdf = $this->createThemedMpdf($theme, $setup);
 
-		$template = $this->templateFactory->createTemplate(
-			$this->application->getPresenter()
-		);
+		$template = $this->templateFactory->createTemplate();
 		$template->setFile($this->templateDir . '/' . $theme . '/' . $variant);
 		$template->dir = $this->templateDir . '/' . $theme;
 
