@@ -9,7 +9,10 @@ class Extension extends DI\CompilerExtension
 {
 
 	/** @var array */
-	private $defaults = [];
+	private $defaults = [
+		'templatesDir' => null,
+		'themes' => [],
+	];
 
 
 
