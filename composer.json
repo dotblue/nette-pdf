@@ -23,7 +23,7 @@
 		"source": "https://github.com/dotblue/nette-pdf"
 	},
 	"require": {
-		"mpdf/mpdf": "~5.7",
+		"mpdf/mpdf": "~5.7|~6.0",
 		"nette/application": "~2.3",
 		"nette/di": "~2.3",
 		"nette/utils": "~2.3"
