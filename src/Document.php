@@ -81,6 +81,18 @@ class Document extends Nette\Object
 
 
 	/**
+	 * Forces the document to be downloaded.
+	 *
+	 * @param  string
+	 */
+	public function forceDownload($filename)
+	{
+		$this->finalize();
+		return $this->mpdf->Output($filename, 'D');
+	}
+
+
+	/**
 	 * Print a PDF file to screen
 	 */
 	public function printPdf()
