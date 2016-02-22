@@ -9,7 +9,10 @@ class Extension extends DI\CompilerExtension
 {
 
 	/** @var array */
-	private $defaults = [];
+	private $defaults = [
+		'templatesDir' => null,
+		'themes' => [],
+	];
 
 
 
@@ -24,13 +27,8 @@ class Extension extends DI\CompilerExtension
 		$themes = $config['themes'];
 		unset($config['themes']);
 
-		if (!$container->getByType('DotBlue\Mpdf\ITemplateFactory')) {
-			$container->addDefinition($this->prefix('templateFactory'))
-				->setClass('DotBlue\Mpdf\TemplateFactories\DefaultLatteTemplateFactory');
-		}
-
 		$factory = $container->addDefinition($this->prefix('factory'))
-			->setClass('DotBlue\Mpdf\Factory', [
+			->setClass('DotBlue\Mpdf\DocumentFactory', [
 				$templatesDir,
 				$config,
 			]);
