@@ -30,7 +30,7 @@ class Extension extends DI\CompilerExtension
 		}
 
 		$factory = $container->addDefinition($this->prefix('factory'))
-			->setClass('DotBlue\Mpdf\Factory', [
+			->setClass('DotBlue\Mpdf\DocumentFactory', [
 				$templatesDir,
 				$config,
 			]);
