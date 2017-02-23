@@ -1,17 +1,16 @@
 #### Requirements
 
 - PHP 5.4+
-- [mpdf/mpdf](https://github.com/finwe/mpdf) ~5.7
-- [nette/application](https://github.com/nette/application) >= 2.2
-- [nette/di](https://github.com/nette/di) >= 2.2
-- [nette/http](https://github.com/nette/http) >= 2.2
-- [nette/utils](https://github.com/nette/utils) >= 2.2
+- [mpdf/mpdf](https://github.com/finwe/mpdf) ~5.7 or ~6.0
+- [nette/application](https://github.com/nette/application) >= 2.3
+- [nette/di](https://github.com/nette/di) >= 2.3
+- [nette/utils](https://github.com/nette/utils) >= 2.3
 
 ## Installation
 
 1) Copy source codes from Github or using [Composer](http://getcomposer.org/):
 ```sh
-$ composer require dotblue/nette-pdf@~1.0
+$ composer require dotblue/nette-pdf@~2.0
 ```
 
 2) Register as Configurator's extension:
