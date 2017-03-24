@@ -90,11 +90,14 @@ class DocumentFactory extends Nette\Object
 	{
 		$pdf = $this->createThemedMpdf($theme, $setup);
 
-		$template = $this->templateFactory->createTemplate();
-		$template->setFile($this->templateDir . '/' . $theme . '/' . $variant);
-		$template->dir = $this->templateDir . '/' . $theme;
+		$themeDir = $this->templateDir . '/' . $theme;
 
-		$pdf->WriteHTML(file_get_contents($this->templateDir . '/' . $theme . '/style.css'), 1);
+		$template = $this->templateFactory->createTemplate();
+		$template->setFile($themeDir . '/' . $variant);
+		$template->dir = $themeDir;
+
+		$pdf->SetBasePath($themeDir);
+		$pdf->WriteHTML(file_get_contents($themeDir . '/style.css'), 1);
 
 		return new Document($pdf, $template);
 	}
