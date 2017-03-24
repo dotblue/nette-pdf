@@ -97,7 +97,10 @@ class DocumentFactory extends Nette\Object
 		$template->dir = $themeDir;
 
 		$pdf->SetBasePath($themeDir);
-		$pdf->WriteHTML(file_get_contents($themeDir . '/style.css'), 1);
+
+		if (is_file($themeDir . '/style.css')) {
+			$pdf->WriteHTML(file_get_contents($themeDir . '/style.css'), 1);
+		}
 
 		return new Document($pdf, $template);
 	}
