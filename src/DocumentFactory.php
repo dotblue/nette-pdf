@@ -2,6 +2,7 @@
 
 namespace DotBlue\Mpdf;
 
+use LogicException;
 use mPDF;
 use Nette;
 use Nette\Application\Application;
@@ -17,6 +18,7 @@ class DocumentFactory extends Nette\Object
 	/** @var array */
 	private $defaults = [
 		'encoding' => 'utf-8',
+		'fonts' => [],
 		'img_dpi' => 120,
 		'size' => 'A4',
 		'margin' => [
@@ -41,13 +43,24 @@ class DocumentFactory extends Nette\Object
 	/**
 	 * @param  string
 	 * @param  array
+	 * @param  array
 	 * @param  ITemplateFactory
 	 */
-	public function __construct($templateDir, array $defaults, ITemplateFactory $templateFactory)
+	public function __construct($templateDir, array $defaults, array $customFonts, ITemplateFactory $templateFactory)
 	{
 		$this->templateDir = rtrim($templateDir, DIRECTORY_SEPARATOR);
 		$this->defaults = array_replace_recursive($this->defaults, $defaults);
 		$this->templateFactory = $templateFactory;
+
+		if ($customFonts) {
+			if (defined('_MPDF_SYSTEM_TTFONTS_CONFIG')) {
+				throw new LogicException("Constant _MPDF_SYSTEM_TTFONTS_CONFIG can't be defined to allow dotblue/nette-pdf to configure fonts.");
+			}
+
+			define('_MPDF_SYSTEM_TTFONTS_CONFIG', __DIR__ . '/config_fonts.php');
+			global $__dotblueNettePdfFonts;
+			$__dotblueNettePdfFonts = $customFonts;
+		}
 	}
 
 

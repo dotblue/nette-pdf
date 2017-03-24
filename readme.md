@@ -56,6 +56,18 @@ margin:
 
 Each theme has built-in support for external stylesheet. If you put `style.css` file into theme's directory, it will be automatically bundled into PDF document.
 
+### Fonts
+
+Custom fonts can be configured in following way:
+
+```
+fonts:
+	roboto:
+		R: %appDir%/fonts/Roboto.ttf
+```
+
+Supported types are R (regular), B (bold), I (italic) and BI (bold & italic).
+
 ## Usage
 
 There is only one service: `DotBlue\Mpdf\DocumentFactory`. Granted that you have `default.latte` file in our `invoice` theme directory, you can create new PDF document like this:
