@@ -8,8 +8,10 @@ use Nette\Application\UI;
 use Nette\Utils\Image;
 
 
-class Document extends Nette\Object
+class Document
 {
+
+	use Nette\SmartObject;
 
 	/** @var mPDF */
 	private $mpdf;

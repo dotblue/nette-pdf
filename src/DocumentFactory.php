@@ -9,8 +9,10 @@ use Nette\Application\Application;
 use Nette\Utils\Strings;
 
 
-class DocumentFactory extends Nette\Object
+class DocumentFactory
 {
+
+	use Nette\SmartObject;
 
 	/** @var string */
 	private $templateDir;

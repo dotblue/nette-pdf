@@ -7,8 +7,10 @@ use Nette;
 use Nette\Application\UI;
 
 
-class DefaultLatteTemplateFactory extends Nette\Object implements ITemplateFactory
+class DefaultLatteTemplateFactory implements ITemplateFactory
 {
+
+	use Nette\SmartObject;
 
 	/** @var UI\ITemplateFactory */
 	private $templateFactory;
