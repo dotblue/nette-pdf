@@ -105,6 +105,16 @@ class Document
 
 
 	/**
+	 * Print a PDF file to screen and sets filename
+	 */
+	public function printPdfInline($filename)
+	{
+		$this->finalize();
+		return $this->mpdf->Output($filename, 'I');
+	}
+
+
+	/**
 	 * Returns instance of mPDF.
 	 *
 	 * @return mPDF
