@@ -21,7 +21,7 @@ class Document
 
 
 
-	public function __construct(mPDF $mpdf, UI\ITemplate $template)
+	public function __construct(\Mpdf\Mpdf $mpdf, UI\ITemplate $template)
 	{
 		$this->mpdf = $mpdf;
 		$this->template = $template;

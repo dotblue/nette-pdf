@@ -122,16 +122,13 @@ class DocumentFactory
 
 		$setup = array_replace_recursive($this->themes[$theme], $setup);
 
-		$mpdf = new mPDF(
-			$setup['encoding'],
-			$setup['size'],
-			'',
-			'',
-			$setup['margin']['left'],
-			$setup['margin']['right'],
-			$setup['margin']['top'],
-			$setup['margin']['bottom']
-		);
+		$mpdf = new \Mpdf\Mpdf([
+			'format' => $setup['size'],
+			'margin_left' => $setup['margin']['left'],
+			'margin_right' => $setup['margin']['right'],
+			'margin_top' => $setup['margin']['top'],
+			'margin_bottom'=> $setup['margin']['bottom']
+		]);
 		$mpdf->showImageErrors = TRUE;
 		$mpdf->img_dpi = $setup['img_dpi'];
 		return $mpdf;
