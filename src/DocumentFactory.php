@@ -3,7 +3,7 @@
 namespace DotBlue\Mpdf;
 
 use LogicException;
-use mPDF;
+use Mpdf\Mpdf;
 use Nette;
 use Nette\Application\Application;
 use Nette\Utils\Strings;
@@ -112,7 +112,7 @@ class DocumentFactory
 	/**
 	 * @param  string
 	 * @param  array|NULL
-	 * @return mPDF
+	 * @return Mpdf
 	 */
 	private function createThemedMpdf($theme, array $setup = [])
 	{
@@ -122,7 +122,7 @@ class DocumentFactory
 
 		$setup = array_replace_recursive($this->themes[$theme], $setup);
 
-		$mpdf = new \Mpdf\Mpdf([
+		$mpdf = new Mpdf([
 			'format' => $setup['size'],
 			'margin_left' => $setup['margin']['left'],
 			'margin_right' => $setup['margin']['right'],
