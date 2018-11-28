@@ -2,7 +2,7 @@
 
 namespace DotBlue\Mpdf;
 
-use mPDF;
+use Mpdf\Mpdf;
 use Nette;
 use Nette\Application\UI;
 use Nette\Utils\Image;
@@ -13,7 +13,7 @@ class Document
 
 	use Nette\SmartObject;
 
-	/** @var mPDF */
+	/** @var Mpdf */
 	private $mpdf;
 
 	/** @var UI\ITemplate */
@@ -21,7 +21,7 @@ class Document
 
 
 
-	public function __construct(mPDF $mpdf, UI\ITemplate $template)
+	public function __construct(Mpdf $mpdf, UI\ITemplate $template)
 	{
 		$this->mpdf = $mpdf;
 		$this->template = $template;
@@ -105,9 +105,9 @@ class Document
 
 
 	/**
-	 * Returns instance of mPDF.
+	 * Returns instance of Mpdf.
 	 *
-	 * @return mPDF
+	 * @return Mpdf
 	 */
 	public function getMpdf()
 	{
