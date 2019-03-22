@@ -59,7 +59,7 @@ class Extension extends DI\CompilerExtension
 			return [];
 		}
 
-		$reflection = new ReflectionClass('mPDF');
+		$reflection = new ReflectionClass('Mpdf\Mpdf');
 		$fontsDir = substr($reflection->getFileName(), 0, -8) . 'ttfonts';
 
 		foreach ($fonts as $font => $details) {
