@@ -1,16 +1,16 @@
 #### Requirements
 
-- PHP 5.4+
-- [mpdf/mpdf](https://github.com/finwe/mpdf) ~5.7 or ~6.0
-- [nette/application](https://github.com/nette/application) >= 2.3
-- [nette/di](https://github.com/nette/di) >= 2.3
-- [nette/utils](https://github.com/nette/utils) >= 2.3
+- PHP 7.3+
+- [mpdf/mpdf](https://github.com/finwe/mpdf) ~7.0
+- [nette/application](https://github.com/nette/application) >= 3.0
+- [nette/di](https://github.com/nette/di) >= 3.0
+- [nette/utils](https://github.com/nette/utils) >= 3.0
 
 ## Installation
 
-1) Copy source codes from Github or using [Composer](http://getcomposer.org/):
+1) Copy source using [Composer](http://getcomposer.org/):
 ```sh
-$ composer require dotblue/nette-pdf@~2.0
+$ composer require dotblue/nette-pdf@~3.0
 ```
 
 2) Register as Configurator's extension:
@@ -46,7 +46,7 @@ Default settings are following:
 ```
 encoding: utf-8
 img_dpi: 120
-size: A4
+format: A4
 margin:
 	left: 0
 	right: 0

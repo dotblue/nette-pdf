@@ -1,18 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DotBlue\Mpdf;
 
-use LogicException;
-use mPDF;
+use Mpdf;
 use Nette;
-use Nette\Application\Application;
-use Nette\Utils\Strings;
 
 
 class DocumentFactory
 {
 
 	use Nette\SmartObject;
+
+	/** @var array */
+	private $customFonts;
 
 	/** @var string */
 	private $templateDir;
@@ -22,7 +22,7 @@ class DocumentFactory
 		'encoding' => 'utf-8',
 		'fonts' => [],
 		'img_dpi' => 120,
-		'size' => 'A4',
+		'format' => 'A4',
 		'margin' => [
 			'left' => 0,
 			'right' => 0,
@@ -34,61 +34,34 @@ class DocumentFactory
 	/** @var array[] */
 	private $themes = [];
 
-	/** @var ITemplateFactory */
+	/** @var Nette\Application\UI\ITemplateFactory */
 	private $templateFactory;
 
-	/** @var Application */
-	private $application;
 
 
-
-	/**
-	 * @param  string
-	 * @param  array
-	 * @param  array
-	 * @param  ITemplateFactory
-	 */
-	public function __construct($templateDir, array $defaults, array $customFonts, ITemplateFactory $templateFactory)
+	public function __construct(
+		string $templateDir,
+		array $defaults,
+		array $customFonts,
+		Nette\Application\UI\ITemplateFactory $templateFactory
+	)
 	{
+		$this->customFonts = $customFonts;
 		$this->templateDir = rtrim($templateDir, DIRECTORY_SEPARATOR);
 		$this->defaults = array_replace_recursive($this->defaults, $defaults);
 		$this->templateFactory = $templateFactory;
-
-		if ($customFonts) {
-			if (defined('_MPDF_SYSTEM_TTFONTS_CONFIG')) {
-				throw new LogicException("Constant _MPDF_SYSTEM_TTFONTS_CONFIG can't be defined to allow dotblue/nette-pdf to configure fonts.");
-			}
-
-			define('_MPDF_SYSTEM_TTFONTS_CONFIG', __DIR__ . '/config_fonts.php');
-			global $__dotblueNettePdfFonts;
-			$__dotblueNettePdfFonts = $customFonts;
-		}
 	}
 
 
 
-	/**
-	 * Registers new theme.
-	 *
-	 * @param  string
-	 * @param  array
-	 */
-	public function addTheme($name, array $setup)
+	public function addTheme(string $name, array $setup): void
 	{
 		$this->themes[$name] = array_replace_recursive($this->defaults, $setup);
 	}
 
 
 
-	/**
-	 * Creates new PDF.
-	 *
-	 * @param  string
-	 * @param  string|NULL
-	 * @param  array|NULL
-	 * @return Document
-	 */
-	public function createPdf($theme, $variant = 'default.latte', array $setup = [])
+	public function createPdf(string $theme, string $variant = 'default.latte', array $setup = []): Document
 	{
 		$pdf = $this->createThemedMpdf($theme, $setup);
 
@@ -109,12 +82,7 @@ class DocumentFactory
 
 
 
-	/**
-	 * @param  string
-	 * @param  array|NULL
-	 * @return mPDF
-	 */
-	private function createThemedMpdf($theme, array $setup = [])
+	private function createThemedMpdf(string $theme, array $setup = []): Mpdf\Mpdf
 	{
 		if (!isset($this->themes[$theme])) {
 			throw new UnknownThemeException("Theme '$theme' isn't registered.");
@@ -122,19 +90,33 @@ class DocumentFactory
 
 		$setup = array_replace_recursive($this->themes[$theme], $setup);
 
-		$mpdf = new mPDF(
-			$setup['encoding'],
-			$setup['size'],
-			'',
-			'',
-			$setup['margin']['left'],
-			$setup['margin']['right'],
-			$setup['margin']['top'],
-			$setup['margin']['bottom']
-		);
-		$mpdf->showImageErrors = TRUE;
-		$mpdf->img_dpi = $setup['img_dpi'];
-		return $mpdf;
+		$configuration = [
+			'mode' => $setup['encoding'],
+			'format' => $setup['format'],
+			'margin_left' => $setup['margin']['left'],
+			'margin_right' => $setup['margin']['right'],
+			'margin_top' => $setup['margin']['top'],
+			'margin_bottom' => $setup['margin']['bottom'],
+			'showImageErrors' => TRUE,
+			'img_dpi' => $setup['img_dpi'],
+		];
+
+		if (isset($this->customFonts['fontsDirs'])) {
+			$defaultConfig = (new Mpdf\Config\ConfigVariables())->getDefaults();
+			$defaultFontDirs = $defaultConfig['fontDir'];
+
+			$configuration['fontDir'] = array_merge($defaultFontDirs, $this->customFonts['fontsDirs']);
+		}
+
+		if (isset($this->customFonts['fonts'])) {
+			$defaultFontConfig = (new Mpdf\Config\FontVariables())->getDefaults();
+			$defaultFontData = $defaultFontConfig['fontdata'];
+
+			$configuration['fontdata'] = array_replace($defaultFontData, $this->customFonts['fonts']);
+			$configuration['default_font'] = key($this->customFonts['fonts']);
+		}
+
+		return new Mpdf\Mpdf($configuration);
 	}
 
 }

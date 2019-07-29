@@ -23,10 +23,11 @@
 		"source": "https://github.com/dotblue/nette-pdf"
 	},
 	"require": {
-		"mpdf/mpdf": "~5.7|~6.0",
-		"nette/application": "~2.4",
-		"nette/di": "~2.4",
-		"nette/utils": "~2.4"
+		"php": ">=7.3",
+		"mpdf/mpdf": "~7.0",
+		"nette/application": "~3.0",
+		"nette/di": "~3.0",
+		"nette/utils": "~3.0"
 	},
     "autoload": {
         "classmap": ["src/"]

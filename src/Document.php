@@ -1,11 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DotBlue\Mpdf;
 
-use mPDF;
+use Mpdf;
 use Nette;
-use Nette\Application\UI;
-use Nette\Utils\Image;
 
 
 class Document
@@ -13,15 +11,18 @@ class Document
 
 	use Nette\SmartObject;
 
-	/** @var mPDF */
+	/** @var Mpdf\Mpdf */
 	private $mpdf;
 
-	/** @var UI\ITemplate */
+	/** @var Nette\Application\UI\ITemplate */
 	private $template;
 
 
 
-	public function __construct(mPDF $mpdf, UI\ITemplate $template)
+	public function __construct(
+		Mpdf\Mpdf $mpdf,
+		Nette\Application\UI\ITemplate $template
+	)
 	{
 		$this->mpdf = $mpdf;
 		$this->template = $template;
@@ -29,106 +30,69 @@ class Document
 
 
 
-	/**
-	 * @param  string
-	 * @param  string
-	 * @return Document provides a fluent interface
-	 */
-	public function addImageFromPath($name, $path)
+	public function addImageFromPath(string $name, string $path): self
 	{
-		$this->addImage($name, Image::fromFile($path));
+		$this->addImage($name, Nette\Utils\Image::fromFile($path));
 		return $this;
 	}
 
 
 
-	/**
-	 * Makes image available in template via "var:$name" notation.
-	 *
-	 * @param  string
-	 * @param  Image
-	 * @return Document provides a fluent interface
-	 */
-	public function addImage($name, Image $image)
+	public function addImage(string $name, Nette\Utils\Image $image): elf
 	{
-		$this->mpdf->$name = $image->toString(Image::PNG);
+		$this->mpdf->$name = $image->toString(Nette\Utils\Image::PNG);
 		return $this;
 	}
 
 
 
-	/**
-	 * Saves document to given destination.
-	 *
-	 * @param  string
-	 */
-	public function saveTo($path)
+	public function saveTo(string $path): void
 	{
 		$this->finalize();
-		return $this->mpdf->Output($path, 'F');
+		$this->mpdf->Output($path, Mpdf\Output\Destination::FILE);
 	}
 
 
 
-	/**
-	 * Returns rendered document as string.
-	 *
-	 * @return string
-	 */
-	public function render()
+	public function render(): string
 	{
 		$this->finalize();
-		return $this->mpdf->Output('', 'S');
+		return $this->mpdf->Output('', Mpdf\Output\Destination::STRING_RETURN);
 	}
 
 
-	/**
-	 * Forces the document to be downloaded.
-	 *
-	 * @param  string
-	 */
-	public function forceDownload($filename)
+
+	public function forceDownload(string $filename): void
 	{
 		$this->finalize();
-		return $this->mpdf->Output($filename, 'D');
+		$this->mpdf->Output($filename, Mpdf\Output\Destination::DOWNLOAD);
 	}
 
 
-	/**
-	 * Print a PDF file to screen
-	 */
-	public function printPdf()
+
+	public function printPdf(): void
 	{
 		$this->finalize();
-		return $this->mpdf->Output();
+		$this->mpdf->Output('', Mpdf\Output\Destination::INLINE);
 	}
 
 
-	/**
-	 * Returns instance of mPDF.
-	 *
-	 * @return mPDF
-	 */
-	public function getMpdf()
+
+	public function getMpdf(): Mpdf\Mpdf
 	{
 		return $this->mpdf;
 	}
 
 
 
-	/**
-	 * Returns template.
-	 *
-	 * @return FileTemplate
-	 */
-	public function getTemplate()
+	public function getTemplate(): Nette\Application\UI\ITemplate
 	{
 		return $this->template;
 	}
 
 
 
-	private function finalize()
+	private function finalize(): void
 	{
 		if (!isset($this->template)) {
 			throw new AlreadyRenderedException('This PDF document has been already rendered.');
