@@ -24,7 +24,7 @@
 	},
 	"require": {
 		"php": ">=7.3",
-		"mpdf/mpdf": "~7.0",
+		"mpdf/mpdf": "~7.0 || ~8.0",
 		"nette/application": "~3.0",
 		"nette/di": "~3.0",
 		"nette/utils": "~3.0"
