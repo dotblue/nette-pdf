@@ -15,6 +15,9 @@ class DocumentFactory
 	private $customFonts;
 
 	/** @var string */
+	private $tempDir;
+
+	/** @var string */
 	private $templateDir;
 
 	/** @var array */
@@ -40,6 +43,7 @@ class DocumentFactory
 
 
 	public function __construct(
+		string $tempDir,
 		string $templateDir,
 		array $defaults,
 		array $customFonts,
@@ -47,6 +51,7 @@ class DocumentFactory
 	)
 	{
 		$this->customFonts = $customFonts;
+		$this->tempDir = $tempDir;
 		$this->templateDir = rtrim($templateDir, DIRECTORY_SEPARATOR);
 		$this->defaults = array_replace_recursive($this->defaults, $defaults);
 		$this->templateFactory = $templateFactory;
@@ -99,6 +104,7 @@ class DocumentFactory
 			'margin_bottom' => $setup['margin']['bottom'],
 			'showImageErrors' => TRUE,
 			'img_dpi' => $setup['img_dpi'],
+			'tempDir' => $this->tempDir,
 		];
 
 		if (isset($this->customFonts['fontsDirs'])) {

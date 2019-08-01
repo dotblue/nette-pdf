@@ -15,6 +15,7 @@ class Extension extends Nette\DI\CompilerExtension
 		'defaults' => [],
 		'fonts' => [],
 		'fontsDirs' => [],
+		'tempDir' => NULL,
 		'templatesDir' => NULL,
 		'themes' => [],
 	];
@@ -28,6 +29,7 @@ class Extension extends Nette\DI\CompilerExtension
 
 		$factory = $container->addDefinition($this->prefix('factory'))
 			->setFactory(DotBlue\Mpdf\DocumentFactory::class, [
+				$config['tempDir'],
 				$config['templatesDir'],
 				$config['defaults'],
 				[
