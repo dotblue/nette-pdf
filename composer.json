@@ -29,7 +29,7 @@
 		"nette/di": "~3.0",
 		"nette/utils": "~3.0 || ~4.0"
 	},
-    "autoload": {
-        "classmap": ["src/"]
-    }
+	"autoload": {
+		"classmap": ["src/"]
+	}
 }
